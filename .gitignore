@@ -1,0 +1,5 @@
+.env
+chroma_db/
+backend/chroma_persist/
+__pycache__/
+*.pyc

@@ -29,7 +29,7 @@ async def upload_file(files: List[UploadFile] = File(...)):
 @router.post("/chat", response_model = ChatResponse)
 async def chat(request: ChatRequest):
     vector_store = vector_store_manager.get_vector_store()
-    output = rag_service.answer_question(context=request.context, question=request.question, vector_store=vector_store)
+    output = rag_service.answer_question(question=request.question, vector_store=vector_store)
     return ChatResponse(answer = output["answer"],sources = output["sources"])
 
 @router.get("/health")

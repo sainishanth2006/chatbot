@@ -9,7 +9,10 @@ class Settings(BaseSettings):
    GOOGLE_API_KEY: Optional[str] = None
    CHROMA_PERSIS_DIR: str = "./chroma_persist"
    EMBEDDING_MODEL_NAME: str = "models/gemini-embedding-001"
-   LLM_MODEL_NAME: str = "gemini-2.5-flash"
-   allowed_origins: list[str] = ["https://localhost:3000"]
+   LLM_MODEL_NAME: str = "gemini-3.6-flash"
+   allowed_origins: list[str] = [
+      "http://localhost:5173",
+      "http://127.0.0.1:5173",
+   ]
 
 settings = Settings()

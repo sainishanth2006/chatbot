@@ -37,12 +37,12 @@ Answer:"""
 
         self.vector_store = None
 
-    def answer_question(self, question: str, vector_store) -> dict:
-        retriever = vector_store.as_retriever(search_kwargs={"k": 3})
+    def answer_question(self, question: str, vector_store, session_id: str) -> dict:
+        retriever = vector_store.as_retriever(search_kwargs={"k": 3, "filter":{"session_id": session_id}})
         docs = retriever.invoke(question)
 
         if not docs:
-            return {"answer": "I cannot find this information in the uploaded documents.", "sources": []}
+            return {"answer": "I cannot find this information in the uploaded documents, in this session.", "sources": []}
         context_str = "\n\n".join(
             f"[Source:{doc.metadata.get('source', 'Unknown')}] \n {doc.page_content}" for doc in docs
         )

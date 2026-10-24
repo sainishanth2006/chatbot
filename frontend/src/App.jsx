@@ -5,8 +5,15 @@ import ChatInput from './components/ChatInput';
 import { sendChatMessage } from './api/client';
 
 export default function App() {
+  const [sessionId, setSessionId] = useState(() => `session_${crypto.randomUUID()}`);
   const [messages, setMessages] = useState([]);
   const [chatLoading, setChatLoading] = useState(false);
+
+  const startNewSession = () =>{
+    const newId = "session_" + crypto.randomUUID();
+    setSessionId(newId);
+    setMessages([]);
+  }
 
   const handleSendMessage = async (questionText) => {
     const userMsg = { role: 'user', content: questionText };
@@ -14,7 +21,7 @@ export default function App() {
     setChatLoading(true);
 
     try {
-      const response = await sendChatMessage(questionText);
+      const response = await sendChatMessage(questionText, sessionId);
       const assistantMsg = {
         role: 'assistant',
         content: response.answer,
@@ -36,7 +43,7 @@ export default function App() {
   return (
     <div className="flex h-screen bg-gray-100 font-sans antialiased">
       {/* Sidebar Panel */}
-      <Sidebar />
+      <Sidebar sessionId={sessionId} />
 
       {/* Main Chat Workspace */}
       <div className="flex-1 flex flex-col h-full">

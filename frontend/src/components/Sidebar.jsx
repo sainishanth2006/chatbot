@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Upload, FileText, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
 import { uploadDocuments } from '../api/client';
 
-export default function Sidebar({ onUploadSuccess }) {
+export default function Sidebar({ onUploadSuccess, sessionId }) {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [status, setStatus] = useState(null); // { type: 'success' | 'error', message: string }
@@ -19,7 +19,7 @@ export default function Sidebar({ onUploadSuccess }) {
     setStatus(null);
 
     try {
-      const data = await uploadDocuments(selectedFiles);
+      const data = await uploadDocuments(selectedFiles, sessionId);
       setStatus({
         type: 'success',
         message: `${data.message} (${data.chunks_created} chunks generated)`,

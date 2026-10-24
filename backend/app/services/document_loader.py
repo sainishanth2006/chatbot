@@ -11,7 +11,7 @@ class DocumentLoader:
             chunk_size=chunk_size, 
             chunk_overlap=chunk_overlap
         )
-    async def process_upload(self, file: UploadFile) -> List[str]:
+    async def process_upload(self, file: UploadFile, session_id:str) -> List[str]:
         ext = os.path.splitext(file.filename)[1].lower()
         with tempfile.NamedTemporaryFile(delete = False) as temp_file:
             content = await file.read()
@@ -27,6 +27,7 @@ class DocumentLoader:
             docs = loader.load()
             for doc in docs:
                 doc.metadata["source"] = file.filename
+                doc.metadata['session_id'] = session_id
             chunks = self.splitter.split_documents(docs)
             return chunks
         finally:
